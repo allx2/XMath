@@ -48,7 +48,7 @@ matrix::~matrix(){
     colum=0;
 }
     
-matrix matrix::operator*(matrix& in_matrix){
+matrix matrix::operator*(const matrix &in_matrix){
     matrix out_matrix(row,in_matrix.colum);
     for(int i=0;i<row;i++)
         for(int j=0;j<in_matrix.colum;j++)
@@ -57,7 +57,7 @@ matrix matrix::operator*(matrix& in_matrix){
     return out_matrix;
 }
 
-matrix matrix:: operator=(matrix &in_matrix){
+matrix matrix::operator=(const matrix &in_matrix){
     if(this != &in_matrix){
         delete [] M;
         row=in_matrix.row;
@@ -73,7 +73,8 @@ matrix matrix:: operator=(matrix &in_matrix){
     return *this;
 }
 
-matrix matrix:: operator+(matrix &in_matrix){
+
+matrix matrix::operator+(const matrix &in_matrix){
     matrix out_matrix(row,colum);
     if(row==in_matrix.row)
         if(colum==in_matrix.colum)
@@ -87,7 +88,21 @@ matrix matrix:: operator+(matrix &in_matrix){
     return out_matrix;
 }
 
-ostream& operator<<(ostream& out, matrix& p_matrix){
+matrix matrix::operator - (const matrix &in_matrix) {
+	matrix out_matrix(row, colum);
+	if (row == in_matrix.row)
+		if (colum == in_matrix.colum)
+		{
+			for (int i = 0; i < row; i++)
+				for (int j = 0; j < colum; j++)
+					out_matrix.M[i][j] = M[i][j] - in_matrix.M[i][j];
+		}
+		else
+			cout << "Dimensiones de matrices incorrectas" << endl;
+	return out_matrix;
+}
+
+ostream& operator<<(ostream& out,const matrix& p_matrix){
 
     char aux=' ';
      for(int i=0;i<p_matrix.row;i++)
@@ -105,18 +120,16 @@ char aux=' ';
     return out;
 }
 
-istream& operator>>(istream& in, matrix& p_matrix){
-char aux=' ';
+istream& operator>>(istream& in, const matrix& p_matrix){
 int count=0;
 
     for(int i=0;i<p_matrix.row;i++){
         for(int j=0;j<p_matrix.colum;j++){
+            cout<<"Elemento["<<i+1<<"]["<<j+1<<"]:";
             in>>p_matrix.M[i][j];
-			cout<<" ";
         }
 		cout<<endl;
     }
 
     return in;
 }
-
